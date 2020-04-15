@@ -5,9 +5,6 @@ JavaによるAkkaトレーニング第2回
 Akkaは非同期処理を実装するのに有用なツールキットです。
 今回はAkkaのアクターを使った非同期処理を紹介し、3層アーキテクチャで用いたデータベース・トランザクションによる排他制御との違いを学びます。
 
-以下に課題を用意したので、それをこなすことがこのトレーニングのゴールです。
-課題の提出方法は後ほど紹介しますが、課題を通じて手を動かすとともに、トレーナーと対話することで学びを促進することが狙いです。
-
 - [次回のトレーニング: アクターとデータベースのシステム(イベント・ソーシング)](https://github.com/mvrck-inc/training-akka-java-3-persistence)
 
 ## 課題
@@ -19,18 +16,33 @@ Akkaは非同期処理を実装するのに有用なツールキットです。
 
 ## この課題で身につく能力
 
-- akkaのアクターを使ってBareboneアプリケーションを立ち上げられる
-- 状態遷移図とアクター実装の対応関係がわかる
+- akkaのアクターを使って素早く最小限のアプリケーションを作成できる
+- 状態遷移図をもとにアクターの実装をソースコードに書き起こせる
 
+### 事前準備:
 
 MacBook前提。
 
+- Mavenをインストールしてください
+  - `brew install maven`
 
 ### 作業開始:
 
+MacBook前提。
+
+- TODO: アプリケーション図示 
+
 - このレポジトリをgit cloneしてください
   - `git clone git@github.com:mvrck-inc/training-akka-java-2-actor.git`
-
+- アプリケーションを走らせてください
+  - `mvn compile`
+  - `mvn exec:java -Dexec.mainClass=com.mycompany.app.Main`
+- curlでデータを挿入してください
+  - レスポンスを確認してください
+  - アプリケーション側のログを確認してください
+- wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders
+  - t2: 2 threads, c4: 4 http connections, d5: test duration is 5 seconds
+  - クライアント側とサーバー側の実行結果を確認してください
 - チケット(在庫)とオーダーの整合性を保つ[シーケンス図](https://plantuml.com/sequence-diagram)を[確認してください](../)
 - チケット(在庫)とオーダーの[状態遷移図](https://plantuml.com/state-diagram)を[確認してください](../)
 - それぞれの状態の詳細な状態遷移図を見てコマンド、遷移可能状態、副作用を[確認してください](../)
@@ -43,10 +55,7 @@ MacBook前提。
   - [ガーディアン](../)
   - チケット在庫アクター[親](../)[子](../)
   - オーダーアクター[親](../)[子](../)
-- akka-httpをセットアップしてください
-- wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders
-  - t2: 2 threads, c4: 4 http connections, d5: test duration is 5 seconds
-  - クライアント側とサーバー側の実行結果を確認してください
+- akka-httpのセットアップを[確認してください](../)
 
 ### 発展的内容:
 

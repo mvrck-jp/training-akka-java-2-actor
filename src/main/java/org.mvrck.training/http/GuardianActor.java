@@ -1,17 +1,16 @@
-package org.mvrck.training.app;
+package org.mvrck.training.http;
 
 import akka.actor.typed.*;
 import akka.actor.typed.javadsl.*;
 import akka.http.javadsl.*;
 import akka.stream.*;
 import org.mvrck.training.actor.*;
-import org.mvrck.training.http.*;
 
-public class GuardianBehavior {
+public class GuardianActor {
   /********************************************************************************
    *  Actor Behaviors
    *******************************************************************************/
-  public static Behavior<GuardianActor.Message> create() {
+  public static Behavior<Message> create() {
     return Behaviors.setup(context -> {
       /*********************************************************************************
        * Set up actor hierarchy on startup
@@ -19,10 +18,8 @@ public class GuardianBehavior {
       var orderParent = context.spawn(OrderParentActor.create(), "order-parent");
       var ticketStockParent = context.spawn(TicketStockParentActor.create(orderParent), "ticket-stock-parent");
 
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(1, 25210));
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(2, 10));
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(3, 10));
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(4, 100));
+      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(1, 100));
+      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(2, 200));
 
       /*********************************************************************************
        * Set up HTTP server
@@ -35,8 +32,8 @@ public class GuardianBehavior {
       var binding = http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", 8080), materializer);
 
       // Shutdown behavior
-      return Behaviors.receive(GuardianActor.Message.class)
-        .onMessage(GuardianActor.TerminateHttp.class, message -> {
+      return Behaviors.receive(Message.class)
+        .onMessage(TerminateHttp.class, message -> {
             binding
               .thenCompose(ServerBinding::unbind)
               .thenAccept(unbound -> context.getSystem().terminate());
@@ -45,6 +42,12 @@ public class GuardianBehavior {
         ).build();
     });
   }
+
+  /********************************************************************************
+   * Actor Messages
+   ********************************************************************************/
+  public interface Message {}
+  public static class TerminateHttp implements Message {}
 
   // Actor Messages are in GuardianActor
 }

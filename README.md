@@ -7,6 +7,11 @@ Akkaは非同期処理を実装するのに有用なツールキットです。
 
 - [次回のトレーニング: アクターとデータベースのシステム(イベント・ソーシング)](https://github.com/mvrck-inc/training-akka-java-3-persistence)
 
+<p align="center">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/79640175-17735500-81cb-11ea-94b3-0141d47be6ae.png">
+</p>
+
+
 ## 課題
 
 この課題をこなすことがトレーニングのゴールです。課題を通じて手を動かすとともに、トレーナーと対話することで学びを促進することが狙いです。
@@ -16,7 +21,7 @@ Akkaは非同期処理を実装するのに有用なツールキットです。
 
 ## この課題で身につく能力
 
-- akkaのアクターを使って素早く最小限のアプリケーションを作成できる
+- akkaのアクターを使って素早くアプリケーションの原型を作成できる
 - 状態遷移図をもとにアクターの実装をソースコードに書き起こせる
 
 ### 事前準備:
@@ -30,17 +35,16 @@ MacBook前提。
 
 MacBook前提。
 
-- TODO: アプリケーション図示 
-
 - このレポジトリをgit cloneしてください
   - `git clone git@github.com:mvrck-inc/training-akka-java-2-actor.git`
 - アプリケーションを走らせてください
   - `mvn compile`
   - `mvn exec:java -Dexec.mainClass=com.mycompany.app.Main`
-- curlでデータを挿入してください
+- curlでデータをPOSTしてください
+  - `curl -X POST -H "Content-Type: application/json" -d "{\"ticket_id\": 1, \"user_id\": 2, \"quantity\": 1}"  -v http://localhost:8080/orders`
   - レスポンスを確認してください
   - アプリケーション側のログを確認してください
-- wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders
+- `wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders`
   - t2: 2 threads, c4: 4 http connections, d5: test duration is 5 seconds
   - クライアント側とサーバー側の実行結果を確認してください
 - チケット(在庫)とオーダーの整合性を保つ[シーケンス図](https://plantuml.com/sequence-diagram)を[確認してください](../)

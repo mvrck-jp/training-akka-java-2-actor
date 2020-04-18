@@ -39,7 +39,7 @@ MacBook前提。
   - `git clone git@github.com:mvrck-inc/training-akka-java-2-actor.git`
 - アプリケーションを走らせてください
   - `mvn compile`
-  - `mvn exec:java -Dexec.mainClass=com.mycompany.app.Main`
+  - `mvn exec:java -Dexec.mainClass=org.mvrck.training.app.Main`
 - curlでデータをPOSTしてください
   - `curl -X POST -H "Content-Type: application/json" -d "{\"ticket_id\": 1, \"user_id\": 2, \"quantity\": 1}"  -v http://localhost:8080/orders`
   - レスポンスを確認してください

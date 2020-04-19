@@ -4,7 +4,9 @@ import org.mvrck.training.actor.*;
 
 public class OrderPutResponse {
 
-  public interface Result {}
+  public interface Result {
+    boolean isSuccess();
+  }
 
   public static class Success implements Result {
     public final int ticketId;
@@ -16,6 +18,11 @@ public class OrderPutResponse {
       this.userId = userId;
       this.quantity = quantity;
     }
+
+    @Override
+    public boolean isSuccess() {
+      return true;
+    }
   }
 
   public static class Error implements Result {
@@ -23,6 +30,11 @@ public class OrderPutResponse {
 
     public Error(String errorMessage) {
       this.errorMessage = errorMessage;
+    }
+
+    @Override
+    public boolean isSuccess() {
+      return false;
     }
   }
 

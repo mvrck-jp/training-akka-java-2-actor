@@ -32,7 +32,14 @@ public class OrderRoute extends AllDirectives {
             Duration.ofSeconds(3),
             system.scheduler()
           );
-          return onSuccess(completionStage, result -> complete(StatusCodes.OK, OrderPutResponse.convert(result), Jackson.marshaller()));
+          return onSuccess(completionStage, response -> {
+            var putResponse = OrderPutResponse.convert(response);
+            if(putResponse.isSuccess()) {
+              return complete(StatusCodes.OK, putResponse, Jackson.marshaller());
+            } else {
+              return complete(StatusCodes.INTERNAL_SERVER_ERROR, "internal server error");
+            }
+          });
         })
       )
     );

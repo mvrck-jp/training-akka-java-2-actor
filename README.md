@@ -30,36 +30,63 @@ MacBook前提。
 
 - Mavenをインストールしてください
   - `brew install maven`
-
+  - Mavenに関してはMave 3.x系であれば動くのではないかと思います。
+  
 ### 作業開始:
 
 MacBook前提。
 
 - このレポジトリをgit cloneしてください
   - `git clone git@github.com:mvrck-inc/training-akka-java-2-actor.git`
+  
+この課題はgit clone下ソースコードをそのまま使うことで、自分で新たにソースコードを書くことなく実行できるようになっています。
+もちろん、自分で書き方を覚えたい方や、最後の発展的内容に取り組みたい方はご自分でぜひソースコードを書いてみてください。
+
 - アプリケーションを走らせてください
   - `mvn compile`
   - `mvn exec:java -Dexec.mainClass=org.mvrck.training.app.Main`
 - curlでデータをPOSTしてください
-  - `curl -X POST -H "Content-Type: application/json" -d "{\"ticket_id\": 1, \"user_id\": 2, \"quantity\": 1}"  -v http://localhost:8080/orders`
-  - レスポンスを確認してください
-  - アプリケーション側のログを確認してください
-- `wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders`
-  - t2: 2 threads, c4: 4 http connections, d5: test duration is 5 seconds
-  - クライアント側とサーバー側の実行結果を確認してください
-- チケット(在庫)とオーダーの整合性を保つ[シーケンス図](https://plantuml.com/sequence-diagram)を[確認してください](../)
-- チケット(在庫)とオーダーの[状態遷移図](https://plantuml.com/state-diagram)を[確認してください](../)
-- それぞれの状態の詳細な状態遷移図を見てコマンド、遷移可能状態、副作用を[確認してください](../)
-- 状態遷移「表」を[確認してください](../)
-- ソースコードのコマンドを[確認してください](../)
-- ソースコードの状態の定義を[確認してください](../)
-- ガーディアンアクター以下親子関係のから樹形図を[確認してください](../)
-- シーケンス図を複数アクターに拡大したものを[確認してください](../)
+  - `curl -X POST -H "Content-Type: application/json" -d "{\"ticket_id\": 1, \"user_id\": 2, \"quantity\": 1}"  http://localhost:8080/orders`
+  - クライアント側ログからレスポンスを確認してください
+- wrkでベンチマークを走らせてください
+  - `wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders`
+    - `-t2`: 2 threads
+    - `-c4`: 4 http connections
+    - `-d5`: 5 seconds of test duration
+    - `wrk-scripts/order.lua` ([リンク](./wrk-scrips/order.lua))
+    - クライアント側とサーバー側の実行結果を確認してください
+- TicketStockActorとOrderActorの整合性を保つシーケンス図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuU9IyWW92L1m3F1KKj2rKmZ9JCvEBGakoK_ETamkoI-oKYWeoazEBIvMo2zAIItYGfS7wV47oK1L9nUb9fQaGXGZ6ssZYwAiABMu83-lE9MBoo4rBmNe3W00) - ([参考リンク: PlantUML](https://plantuml.com/sequence-diagram))
+- TicketStockActorの状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUAArefLqDMrKqWiIypCIKpAIRLII2vAJIn9rT3aGX8hB4tCAyaigLImKp10YAFhLCXCKyXBBSUdEh-qn3yjk2G_ETiAGxKjK3MIFAe4bqDgNWhGoG00) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
+- OrderActorの状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKaWkIaqiITNGv798pKi1AW40) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
+- 詳細な状態遷移図を見てメッセージ、遷移可能状態、副作用を[確認してください](../)
+  - ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI2nBpCn9JCf9jL88ACfFJYqkzYzAIItYWekZgrB8J5F8IorNA2nDp2l9BAbKi5CmG5ETNrhYdnPSaf-SZKMvBL2vGsfU2j0H0000))
+  - ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJo2yjyKyBBibFphPI22ZAJqujBlOlIaajua98WDK1rLiff1OLvHSf5AKM5-Jd5QToEQJcfG3D0W00))
+  - ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKd1FBV4lIaajue89WUM1wgmKWbAB2_BpYbEv75BpKe2w0G00))
+- ソースコードのコマンドを確認してください
+  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+- 状態遷移「表」を確認してください
+
+| TicketStockActor | ProcessOrder |
+|------------------|--------------|
+| available        | オーダー処理 |
+| outOfStock       | - |
+
+| OrderActor | GetOrder   |
+|------------|------------|
+| behavior   | Response   |
+
+- ソースコードの状態の定義を[確認してください]
+  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+- ガーディアンアクター以下親子関係のから樹形図を確認してください
+ - ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUBAJyfAJIvHS2zDB4h9JCo3yKCoaxDJIu9ByfEp0nABKlDAO1B-HIcfHL0XJBM6MCICKBGQel1GvOnHU2PSN31NAUJhwc8w2KKQnM4OIj4DC2Iin8WBoKI43OROXN6eDiOkRCBba9gN0Wn_0000))
 - 各アクターの実装を確認してください
-  - [ガーディアン](../)
-  - チケット在庫アクター[親](../)[子](../)
-  - オーダーアクター[親](../)[子](../)
-- akka-httpのセットアップを[確認してください](../)
+  - GuardianActor([リンク](./src/main/java/org/mvrck/training/http/GuardianActor.java))
+  - TicketStockParentActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockParentActor.java))
+  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java))
+  - OrderParentActor([リンク](./src/main/java/org/mvrck/training/actor/OrderParentActor.java))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java))
 
 ### 発展的内容:
 

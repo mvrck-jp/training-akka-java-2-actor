@@ -16,7 +16,7 @@ public class OrderActor {
   private static Behavior<Message> behavior(int ticketId, int userId, int quantity) {
     return Behaviors.receive(Message.class)
       .onMessage(GetOrder.class, message -> {
-        message.sender.tell("order was created");
+        message.sender.tell(new GetOrderResponse(ticketId, userId, quantity));
         return Behaviors.same();
       }).build();
   }
@@ -35,6 +35,18 @@ public class OrderActor {
       this.ticketId = ticketId;
       this.userId = userId ;
       this.sender = sender;
+    }
+  }
+
+  public static final class GetOrderResponse {
+    public final int ticketId;
+    public final int userId;
+    public final int quantity;
+
+    public GetOrderResponse(int ticketId, int userId, int quantity) {
+      this.ticketId = ticketId;
+      this.userId = userId ;
+      this.quantity = quantity;
     }
   }
 }

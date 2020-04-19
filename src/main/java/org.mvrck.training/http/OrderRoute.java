@@ -3,6 +3,7 @@ package org.mvrck.training.http;
 import akka.actor.typed.*;
 import akka.actor.typed.javadsl.*;
 import akka.http.javadsl.marshallers.jackson.*;
+import akka.http.javadsl.model.*;
 import akka.http.javadsl.server.*;
 import org.mvrck.training.actor.*;
 import org.mvrck.training.dto.*;
@@ -27,11 +28,11 @@ public class OrderRoute extends AllDirectives {
         entity(Jackson.unmarshaller(OrderPutRequest.class), req -> {
           CompletionStage<OrderActor.Response> completionStage = AskPattern.ask(
             ticketStockParent,
-            replyTo -> new TicketStockParentActor.ProcessOrder(1,34, 1, replyTo),
+            replyTo -> new TicketStockParentActor.ProcessOrder(req.getTicketId(),req.getUserId(), req.getQuantity(), replyTo),
             Duration.ofSeconds(3),
             system.scheduler()
           );
-          return onSuccess(completionStage, result -> complete(result.toString()));
+          return onSuccess(completionStage, result -> complete(StatusCodes.OK, OrderPutResponse.convert(result), Jackson.marshaller()));
         })
       )
     );

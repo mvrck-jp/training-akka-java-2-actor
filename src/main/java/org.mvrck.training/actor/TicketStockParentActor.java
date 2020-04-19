@@ -30,7 +30,7 @@ public class TicketStockParentActor {
       .onMessage(ProcessOrder.class, message -> {
         var child = children.get(message.ticketId);
         if(child == null) {
-          System.out.println("bah");
+          message.sender.tell(new OrderActor.ErrorResponse("No ticket stock for " + message.ticketId));
         } else {
           child.tell(new TicketStockActor.ProcessOrder(message.ticketId, message.userId, message.quantity, message.sender));
         }

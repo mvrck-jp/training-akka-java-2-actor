@@ -29,16 +29,29 @@ public class OrderActor {
   public static final class GetOrder implements Message {
     public final int ticketId;
     public final int userId;
-    public final ActorRef<Object> sender;
+    public final ActorRef<Response> sender;
 
-    public GetOrder(int ticketId, int userId, ActorRef<Object> sender) {
+    public GetOrder(int ticketId, int userId, ActorRef<Response> sender) {
       this.ticketId = ticketId;
       this.userId = userId ;
       this.sender = sender;
     }
   }
 
-  public static final class GetOrderResponse {
+  /********************************************************************************
+   *  Actor Response
+   *******************************************************************************/
+  public interface Response {}
+
+  public static final class ErrorResponse implements Response {
+    public final String errorMessage;
+
+    public ErrorResponse(String errorMessage) {
+      this.errorMessage = errorMessage;
+    }
+  }
+
+  public static final class GetOrderResponse implements Response {
     public final int ticketId;
     public final int userId;
     public final int quantity;

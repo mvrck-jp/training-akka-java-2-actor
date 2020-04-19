@@ -25,7 +25,7 @@ public class OrderParentActor {
         var orderId = UUID.randomUUID();
         var child = context.spawn(OrderActor.create(message.ticketId, message.userId, message.quantity), orderId.toString());
         children.put(orderId.toString(), child);
-        message.sender.tell("order was created");
+        child.tell(new OrderActor.GetOrder(message.ticketId, message.userId, message.sender));
         return behavior(context, children);
       })
       .build();
@@ -40,9 +40,9 @@ public class OrderParentActor {
     public final int ticketId;
     public final int userId;
     public final int quantity;
-    public final ActorRef<Object> sender;
+    public final ActorRef<OrderActor.Response> sender;
 
-    public CreateOrder(int ticketId, int userId, int quantity, ActorRef<Object> sender) {
+    public CreateOrder(int ticketId, int userId, int quantity, ActorRef<OrderActor.Response> sender) {
       this.ticketId = ticketId;
       this.userId = userId ;
       this.quantity = quantity;

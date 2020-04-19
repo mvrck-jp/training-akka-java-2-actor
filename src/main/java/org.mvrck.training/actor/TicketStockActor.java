@@ -21,7 +21,7 @@ public class TicketStockActor {
       .onMessage(ProcessOrder.class, message -> {
         var decrementedQuantity = quantity - message.quantityDecrementedBy;
         if (decrementedQuantity < 0) {
-          message.sender.tell("TicketStock cannot have a negative quantity");
+          message.sender.tell(new OrderActor.ErrorResponse("TicketStock cannot have a negative quantity"));
           return Behaviors.same();
         } else if (decrementedQuantity == 0){
           orderParent.tell(new OrderParentActor.CreateOrder(message.ticketId, message.userId, message.quantityDecrementedBy, message.sender));
@@ -38,7 +38,7 @@ public class TicketStockActor {
   private static Behavior<Message> outOfStock(ActorContext<Message> context, int ticketId) {
     return Behaviors.receive(Message.class)
       .onMessage(ProcessOrder.class, message -> {
-        message.sender.tell("Ticket is out of stock");
+        message.sender.tell(new OrderActor.ErrorResponse("Ticket is out of stock"));
         return Behaviors.same();
       })
       .build();
@@ -53,9 +53,9 @@ public class TicketStockActor {
     public final int ticketId;
     public final int userId;
     public final int quantityDecrementedBy;
-    public final ActorRef<Object> sender;
+    public final ActorRef<OrderActor.Response> sender;
 
-    public ProcessOrder(int ticketId, int userId, int quantityDecrementedBy, ActorRef<Object> sender) {
+    public ProcessOrder(int ticketId, int userId, int quantityDecrementedBy, ActorRef<OrderActor.Response> sender) {
       this.ticketId = ticketId;
       this.userId = userId;
       this.quantityDecrementedBy = quantityDecrementedBy;

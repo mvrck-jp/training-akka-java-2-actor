@@ -58,9 +58,9 @@ public class TicketStockParentActor {
     public final int ticketId;
     public final int userId;
     public final int quantity;
-    public final ActorRef<Object> sender;
+    public final ActorRef<OrderActor.Response> sender;
 
-    public ProcessOrder(int ticketId, int userId, int quantity, ActorRef<Object> sender) {
+    public ProcessOrder(int ticketId, int userId, int quantity, ActorRef<OrderActor.Response> sender) {
       this.ticketId = ticketId;
       this.userId = userId ;
       this.quantity = quantity;

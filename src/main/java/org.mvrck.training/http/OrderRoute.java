@@ -8,6 +8,7 @@ import org.mvrck.training.actor.*;
 import org.mvrck.training.dto.*;
 
 import java.time.*;
+import java.util.concurrent.*;
 
 public class OrderRoute extends AllDirectives {
   ActorRef<TicketStockParentActor.Message> ticketStockParent;
@@ -24,7 +25,7 @@ public class OrderRoute extends AllDirectives {
     return pathPrefix("orders", () ->
       pathEndOrSingleSlash(() ->
         entity(Jackson.unmarshaller(OrderPutRequest.class), req -> {
-          var completionStage = AskPattern.ask(
+          CompletionStage<OrderActor.Response> completionStage = AskPattern.ask(
             ticketStockParent,
             replyTo -> new TicketStockParentActor.ProcessOrder(1,34, 1, replyTo),
             Duration.ofSeconds(3),

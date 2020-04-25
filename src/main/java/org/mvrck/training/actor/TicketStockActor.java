@@ -12,23 +12,23 @@ public class TicketStockActor {
     if(quantity < 0)
       throw new RuntimeException("TicketStock quantity cannot be negative");
     else
-      return Behaviors.setup(context -> available(context, orderParent, ticketId, quantity));
+      return Behaviors.setup(context -> available(context, orderParent, new State(ticketId, quantity)));
   }
 
   // private: never accessed from outside the actor
-  private static Behavior<Command> available(ActorContext<Command> context, ActorRef<OrderParentActor.Command> orderParent, int ticketId, int quantity) {
+  private static Behavior<Command> available(ActorContext<Command> context, ActorRef<OrderParentActor.Command> orderParent, State state) {
     return Behaviors.receive(Command.class)
       .onMessage(ProcessOrder.class, command -> {
-        var decrementedQuantity = quantity - command.quantityDecrementedBy;
+        var decrementedQuantity = state.quantity - command.quantityDecrementedBy;
         if (decrementedQuantity < 0) {
           command.sender.tell(new OrderActor.ErrorResponse("TicketStock cannot have a negative quantity"));
           return Behaviors.same();
         } else if (decrementedQuantity == 0){
           orderParent.tell(new OrderParentActor.CreateOrder(command.ticketId, command.userId, command.quantityDecrementedBy, command.sender));
-          return outOfStock(context, ticketId);
+          return outOfStock(context, state.ticketId);
         } else {
           orderParent.tell(new OrderParentActor.CreateOrder(command.ticketId, command.userId, command.quantityDecrementedBy, command.sender));
-          return available(context, orderParent, ticketId, decrementedQuantity);
+          return available(context, orderParent, new State(state.ticketId, decrementedQuantity));
         }
       })
       .build();
@@ -60,6 +60,19 @@ public class TicketStockActor {
       this.userId = userId;
       this.quantityDecrementedBy = quantityDecrementedBy;
       this.sender = sender;
+    }
+  }
+
+  /********************************************************************************
+   * State
+   *******************************************************************************/
+  private static  class State {
+    public int ticketId;
+    public int quantity;
+
+    public State(int ticketId, int quantity) {
+      this.ticketId = ticketId;
+      this.quantity = quantity;
     }
   }
 }

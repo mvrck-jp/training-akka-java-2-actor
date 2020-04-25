@@ -166,7 +166,7 @@ behavior --> [*]: Response
 ---
 - ソースコードのコマンドを[確認してください]
   - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
 
 ---
 - 状態遷移「表」を確認してください
@@ -184,8 +184,8 @@ behavior --> [*]: Response
 
 ---
 - ソースコードの状態の定義を[確認してください]
-  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L66L78))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L66L79))
 
 ---
 - ガーディアンアクター以下親子関係のから樹形図を[確認してください](../)
@@ -215,6 +215,13 @@ OrderParent o-- Order3
 OrderParent o-- Order4
 @enduml
 ```
+
+TicketStockParentとOrderParentも考慮したシーケンス図はこちらです。
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/7414320/79879679-fceae700-8429-11ea-9bbd-d01b904f200e.png">
+</p>
+
 
 ---
 - 各アクターの実装を確認してください

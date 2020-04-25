@@ -63,13 +63,13 @@ MacBook前提。
 - TicketStockActorの状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUAArefLqDMrKqWiIypCIKpAIRLII2vAJIn9rT3aGX8hB4tCAyaigLImKp10YAFhLCXCKyXBBSUdEh-qn3yjk2G_ETiAGxKjK3MIFAe4bqDgNWhGoG00) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
 - OrderActorの状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKaWkIaqiITNGv798pKi1AW40) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
 - 詳細な状態遷移図を見てメッセージ、遷移可能状態、副作用を確認してください([リンク1](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI2nBpCn9JCf9jL88ACfFJYqkzYzAIItYWekZgrB8J5F8IorNA2nDp2l9BAbKi5CmG5ETNrhYdnPSaf-SZKMvBL2vGsfU2j0H0000)) ([リンク2](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJo2yjyKyBBibFphPI22ZAJqujBlOlIaajua98WDK1rLiff1OLvHSf5AKM5-Jd5QToEQJcfG3D0W00))([リンク3](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKd1FBV4lIaajue89WUM1wgmKWbAB2_BpYbEv75BpKe2w0G00))
-- ソースコードのコマンドを確認してください
+- ソースコードのコマンドを[確認してください]
   - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
 - 状態遷移「表」を確認してください
-- ソースコードの状態の定義を確認してください
-  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L24L39))
+- ソースコードの状態の定義を[確認してください]
+  - TicketStockActor([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L66L78))
+  - OrderActor([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L66L79))
 - ガーディアンアクター以下親子関係のから樹形図を確認してください ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUBAJyfAJIvHS2zDB4h9JCo3yKCoaxDJIu9ByfEp0nABKlDAO1B-HIcfHL0XJBM6MCICKBGQel1GvOnHU2PSN31NAUJhwc8w2KKQnM4OIj4DC2Iin8WBoKI43OROXN6eDiOkRCBba9gN0Wn_0000))
 - 各アクターの実装を確認してください
   - GuardianActor([リンク](./src/main/java/org/mvrck/training/http/GuardianActor.java))

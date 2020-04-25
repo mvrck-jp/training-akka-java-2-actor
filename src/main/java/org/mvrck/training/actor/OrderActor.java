@@ -9,14 +9,14 @@ public class OrderActor {
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
   public static Behavior<Command> create(int ticketId, int userId, int quantity){
-    return Behaviors.setup(context -> behavior(ticketId, userId, quantity));
+    return Behaviors.setup(context -> behavior(new State(ticketId, userId, quantity)));
   }
 
   // private: never accessed from outside the actor
-  private static Behavior<Command> behavior(int ticketId, int userId, int quantity) {
+  private static Behavior<Command> behavior(State state) {
     return Behaviors.receive(Command.class)
       .onMessage(GetOrder.class, command -> {
-        command.sender.tell(new GetOrderResponse(ticketId, userId, quantity));
+        command.sender.tell(new GetOrderResponse(state.ticketId, state.userId, state.quantity));
         return Behaviors.same();
       }).build();
   }
@@ -59,6 +59,21 @@ public class OrderActor {
     public GetOrderResponse(int ticketId, int userId, int quantity) {
       this.ticketId = ticketId;
       this.userId = userId ;
+      this.quantity = quantity;
+    }
+  }
+
+  /********************************************************************************
+   * State
+   *******************************************************************************/
+  private static  class State {
+    public int ticketId;
+    public int userId;
+    public int quantity;
+
+    public State(int ticketId, int userId, int quantity) {
+      this.ticketId = ticketId;
+      this.userId = userId;
       this.quantity = quantity;
     }
   }

@@ -15,8 +15,8 @@ public class OrderActor {
   // private: never accessed from outside the actor
   private static Behavior<Command> behavior(int ticketId, int userId, int quantity) {
     return Behaviors.receive(Command.class)
-      .onMessage(GetOrder.class, message -> {
-        message.sender.tell(new GetOrderResponse(ticketId, userId, quantity));
+      .onMessage(GetOrder.class, command -> {
+        command.sender.tell(new GetOrderResponse(ticketId, userId, quantity));
         return Behaviors.same();
       }).build();
   }

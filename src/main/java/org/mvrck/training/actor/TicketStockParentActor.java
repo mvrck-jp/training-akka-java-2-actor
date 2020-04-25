@@ -22,17 +22,17 @@ public class TicketStockParentActor {
     Map<Integer, ActorRef<TicketStockActor.Command>> children) {
 
     return Behaviors.receive(Command.class)
-      .onMessage(CreateTicketStock.class, message -> {
-        var child = context.spawn(TicketStockActor.create(orderParent, message.ticketId, message.quantity), Integer.toString(message.ticketId));
-        children.put(message.ticketId, child);
+      .onMessage(CreateTicketStock.class, command -> {
+        var child = context.spawn(TicketStockActor.create(orderParent, command.ticketId, command.quantity), Integer.toString(command.ticketId));
+        children.put(command.ticketId, child);
         return Behaviors.same();
       })
-      .onMessage(ProcessOrder.class, message -> {
-        var child = children.get(message.ticketId);
+      .onMessage(ProcessOrder.class, command -> {
+        var child = children.get(command.ticketId);
         if(child == null) {
-          message.sender.tell(new OrderActor.ErrorResponse("No ticket stock for " + message.ticketId));
+          command.sender.tell(new OrderActor.ErrorResponse("No ticket stock for " + command.ticketId));
         } else {
-          child.tell(new TicketStockActor.ProcessOrder(message.ticketId, message.userId, message.quantity, message.sender));
+          child.tell(new TicketStockActor.ProcessOrder(command.ticketId, command.userId, command.quantity, command.sender));
         }
         return Behaviors.same();
       })

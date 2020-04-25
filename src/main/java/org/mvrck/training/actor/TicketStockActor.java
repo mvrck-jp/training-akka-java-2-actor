@@ -18,16 +18,16 @@ public class TicketStockActor {
   // private: never accessed from outside the actor
   private static Behavior<Command> available(ActorContext<Command> context, ActorRef<OrderParentActor.Command> orderParent, int ticketId, int quantity) {
     return Behaviors.receive(Command.class)
-      .onMessage(ProcessOrder.class, message -> {
-        var decrementedQuantity = quantity - message.quantityDecrementedBy;
+      .onMessage(ProcessOrder.class, command -> {
+        var decrementedQuantity = quantity - command.quantityDecrementedBy;
         if (decrementedQuantity < 0) {
-          message.sender.tell(new OrderActor.ErrorResponse("TicketStock cannot have a negative quantity"));
+          command.sender.tell(new OrderActor.ErrorResponse("TicketStock cannot have a negative quantity"));
           return Behaviors.same();
         } else if (decrementedQuantity == 0){
-          orderParent.tell(new OrderParentActor.CreateOrder(message.ticketId, message.userId, message.quantityDecrementedBy, message.sender));
+          orderParent.tell(new OrderParentActor.CreateOrder(command.ticketId, command.userId, command.quantityDecrementedBy, command.sender));
           return outOfStock(context, ticketId);
         } else {
-          orderParent.tell(new OrderParentActor.CreateOrder(message.ticketId, message.userId, message.quantityDecrementedBy, message.sender));
+          orderParent.tell(new OrderParentActor.CreateOrder(command.ticketId, command.userId, command.quantityDecrementedBy, command.sender));
           return available(context, orderParent, ticketId, decrementedQuantity);
         }
       })
@@ -37,8 +37,8 @@ public class TicketStockActor {
   // private: never accessed from outside the actor
   private static Behavior<Command> outOfStock(ActorContext<Command> context, int ticketId) {
     return Behaviors.receive(Command.class)
-      .onMessage(ProcessOrder.class, message -> {
-        message.sender.tell(new OrderActor.ErrorResponse("Ticket is out of stock"));
+      .onMessage(ProcessOrder.class, command -> {
+        command.sender.tell(new OrderActor.ErrorResponse("Ticket is out of stock"));
         return Behaviors.same();
       })
       .build();

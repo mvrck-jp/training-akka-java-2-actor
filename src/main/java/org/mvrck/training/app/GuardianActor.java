@@ -34,7 +34,7 @@ public class GuardianActor {
 
       // Shutdown behavior
       return Behaviors.receive(Command.class)
-        .onMessage(TerminateHttp.class, message -> {
+        .onMessage(TerminateHttp.class, command -> {
             binding
               .thenCompose(ServerBinding::unbind)
               .thenAccept(unbound -> context.getSystem().terminate());

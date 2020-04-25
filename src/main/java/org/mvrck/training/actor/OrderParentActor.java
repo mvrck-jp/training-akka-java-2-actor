@@ -21,11 +21,11 @@ public class OrderParentActor {
     Map<String, ActorRef<OrderActor.Command>> children) {
 
     return Behaviors.receive(Command.class)
-      .onMessage(CreateOrder.class, message -> {
+      .onMessage(CreateOrder.class, command -> {
         var orderId = UUID.randomUUID();
-        var child = context.spawn(OrderActor.create(message.ticketId, message.userId, message.quantity), orderId.toString());
+        var child = context.spawn(OrderActor.create(command.ticketId, command.userId, command.quantity), orderId.toString());
         children.put(orderId.toString(), child);
-        child.tell(new OrderActor.GetOrder(message.ticketId, message.userId, message.sender));
+        child.tell(new OrderActor.GetOrder(command.ticketId, command.userId, command.sender));
         return behavior(context, children);
       })
       .build();

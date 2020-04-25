@@ -11,14 +11,14 @@ public class OrderParentActor {
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
   public static Behavior<Command> create(){
-    Map<String, ActorRef<OrderActor.Message>> children = new HashMap<>();
+    Map<String, ActorRef<OrderActor.Command>> children = new HashMap<>();
     return Behaviors.setup(context -> behavior(context, children));
   }
 
   // private: never accessed from outside the actor
   private static Behavior<Command> behavior(
     ActorContext<Command> context,
-    Map<String, ActorRef<OrderActor.Message>> children) {
+    Map<String, ActorRef<OrderActor.Command>> children) {
 
     return Behaviors.receive(Command.class)
       .onMessage(CreateOrder.class, message -> {

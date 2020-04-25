@@ -61,7 +61,7 @@ Press RETURN to stop...
     - クライアント側とサーバー側の実行結果を確認してください
 
 <p align="center">
-  <img width=640 src="https://user-images.githubusercontent.com/7414320/79639615-db8ac080-81c7-11ea-9ff8-123cba6c218c.jpg">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/80275746-3f5c3e80-871e-11ea-894c-3de672c5e1b4.png">
 </p>
 
 私のローカル環境で試したところ、結果はこのようになりました。データベースとの接続がまったくないアプリケーションなので、もちろん第一回のトレーニングと比較はできません。

@@ -11,7 +11,7 @@ public class TicketStockParentActor {
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
   public static Behavior<Command> create(ActorRef<OrderParentActor.Message> orderParent){
-    Map<Integer, ActorRef<TicketStockActor.Message>> children = new HashMap<>();
+    Map<Integer, ActorRef<TicketStockActor.Command>> children = new HashMap<>();
     return Behaviors.setup(context -> behavior(context, orderParent, children));
   }
 
@@ -19,7 +19,7 @@ public class TicketStockParentActor {
   private static Behavior<Command> behavior(
     ActorContext<Command> context,
     ActorRef<OrderParentActor.Message> orderParent,
-    Map<Integer, ActorRef<TicketStockActor.Message>> children) {
+    Map<Integer, ActorRef<TicketStockActor.Command>> children) {
 
     return Behaviors.receive(Command.class)
       .onMessage(CreateTicketStock.class, message -> {

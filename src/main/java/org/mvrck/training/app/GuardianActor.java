@@ -11,7 +11,7 @@ public class GuardianActor {
   /********************************************************************************
    *  Actor Behaviors
    *******************************************************************************/
-  public static Behavior<Message> create() {
+  public static Behavior<Command> create() {
     return Behaviors.setup(context -> {
       /*********************************************************************************
        * Set up actor hierarchy on startup
@@ -33,7 +33,7 @@ public class GuardianActor {
       var binding = http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", 8080), materializer);
 
       // Shutdown behavior
-      return Behaviors.receive(Message.class)
+      return Behaviors.receive(Command.class)
         .onMessage(TerminateHttp.class, message -> {
             binding
               .thenCompose(ServerBinding::unbind)
@@ -47,8 +47,8 @@ public class GuardianActor {
   /********************************************************************************
    * Actor Messages
    ********************************************************************************/
-  public interface Message {}
-  public static class TerminateHttp implements Message {}
+  public interface Command {}
+  public static class TerminateHttp implements Command {}
 
   // Actor Messages are in GuardianActor
 }

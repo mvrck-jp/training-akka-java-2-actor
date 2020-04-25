@@ -5,16 +5,20 @@ JavaによるAkkaトレーニング第2回
 Akkaは非同期処理を実装するのに有用なツールキットです。
 今回はAkkaのアクターを使った非同期処理を紹介し、3層アーキテクチャで用いたデータベース・トランザクションによる排他制御との違いを学びます。
 
-- [次回のトレーニング: アクターとデータベースのシステム(イベント・ソーシング)](https://github.com/mvrck-inc/training-akka-java-3-persistence)
-
 <p align="center">
   <img width=640 src="https://user-images.githubusercontent.com/7414320/79640175-17735500-81cb-11ea-94b3-0141d47be6ae.png">
 </p>
 
+- [第1回のトレーニング: リレーショナル・データベースのトランザクションによる排他制御](https://github.com/mvrck-inc/training-akka-java-1-preparation)
+- [第2回のトレーニング: アクターによる非同期処理](https://github.com/mvrck-inc/training-akka-java-2-actor)
+- [第3回のトレーニング: アクターとデータベースのシステム(イベント・ソーシング)](https://github.com/mvrck-inc/training-akka-java-3-persistence)
+- [第4回のトレーニング: アクターとデータベースのシステム(CQRS)](https://github.com/mvrck-inc/training-akka-java-4-cqrs)
+- [第5回のトレーニング: クラスタリング](https://github.com/mvrck-inc/training-akka-java-5-clustering)
 
 ## 課題
 
-この課題をこなすことがトレーニングのゴールです。課題を通じて手を動かすとともに、トレーナーと対話することで学びを促進することが狙いです。
+この課題をこなすことがトレーニングのゴールです。
+独力でも手を動かしながら進められるようようになっていますが、可能ならトレーナーと対話しながらすすめることでより効果的に学べます。
 
 - [課題提出トレーニングのポリシー](https://github.com/mvrck-inc/training-akka-java-1-preparation/blob/master/POLICIES.md)
 

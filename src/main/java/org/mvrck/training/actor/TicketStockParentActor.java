@@ -10,18 +10,18 @@ public class TicketStockParentActor {
    *  Actor Behaviors
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
-  public static Behavior<Message> create(ActorRef<OrderParentActor.Message> orderParent){
+  public static Behavior<Command> create(ActorRef<OrderParentActor.Message> orderParent){
     Map<Integer, ActorRef<TicketStockActor.Message>> children = new HashMap<>();
     return Behaviors.setup(context -> behavior(context, orderParent, children));
   }
 
   // private: never accessed from outside the actor
-  private static Behavior<Message> behavior(
-    ActorContext<Message> context,
+  private static Behavior<Command> behavior(
+    ActorContext<Command> context,
     ActorRef<OrderParentActor.Message> orderParent,
     Map<Integer, ActorRef<TicketStockActor.Message>> children) {
 
-    return Behaviors.receive(Message.class)
+    return Behaviors.receive(Command.class)
       .onMessage(CreateTicketStock.class, message -> {
         var child = context.spawn(TicketStockActor.create(orderParent, message.ticketId, message.quantity), Integer.toString(message.ticketId));
         children.put(message.ticketId, child);
@@ -42,9 +42,9 @@ public class TicketStockParentActor {
   /********************************************************************************
    *  Actor Messages
    *******************************************************************************/
-  public interface Message {}
+  public interface Command {}
 
-  public static final class CreateTicketStock implements Message {
+  public static final class CreateTicketStock implements Command {
     public final int ticketId;
     public final int quantity;
 
@@ -54,7 +54,7 @@ public class TicketStockParentActor {
     }
   }
 
-  public static final class ProcessOrder implements Message {
+  public static final class ProcessOrder implements Command {
     public final int ticketId;
     public final int userId;
     public final int quantity;

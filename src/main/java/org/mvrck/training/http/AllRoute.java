@@ -10,7 +10,7 @@ public class AllRoute extends AllDirectives {
 
   public AllRoute(
     ActorSystem<Void> system,
-    ActorRef<TicketStockParentActor.Message> ticketStockParent
+    ActorRef<TicketStockParentActor.Command> ticketStockParent
   ){
     this.system = system;
     this.orderRoute = new OrderRoute(system, ticketStockParent);

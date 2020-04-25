@@ -12,12 +12,12 @@ import java.time.*;
 import java.util.concurrent.*;
 
 public class OrderRoute extends AllDirectives {
-  ActorRef<TicketStockParentActor.Message> ticketStockParent;
+  ActorRef<TicketStockParentActor.Command> ticketStockParent;
   ActorSystem<Void> system;
 
   public OrderRoute(
     ActorSystem<Void> system,
-    ActorRef<TicketStockParentActor.Message> ticketStockParent){
+    ActorRef<TicketStockParentActor.Command> ticketStockParent){
     this.system = system;
     this.ticketStockParent = ticketStockParent;
   }

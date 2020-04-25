@@ -8,7 +8,7 @@ public class TicketStockActor {
    *  Actor Behaviors
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
-  public static Behavior<Command> create(ActorRef<OrderParentActor.Message> orderParent, int ticketId, int quantity){
+  public static Behavior<Command> create(ActorRef<OrderParentActor.Command> orderParent, int ticketId, int quantity){
     if(quantity < 0)
       throw new RuntimeException("TicketStock quantity cannot be negative");
     else
@@ -16,7 +16,7 @@ public class TicketStockActor {
   }
 
   // private: never accessed from outside the actor
-  private static Behavior<Command> available(ActorContext<Command> context, ActorRef<OrderParentActor.Message> orderParent, int ticketId, int quantity) {
+  private static Behavior<Command> available(ActorContext<Command> context, ActorRef<OrderParentActor.Command> orderParent, int ticketId, int quantity) {
     return Behaviors.receive(Command.class)
       .onMessage(ProcessOrder.class, message -> {
         var decrementedQuantity = quantity - message.quantityDecrementedBy;

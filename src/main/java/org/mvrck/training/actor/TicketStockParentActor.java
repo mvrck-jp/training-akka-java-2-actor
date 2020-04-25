@@ -10,7 +10,7 @@ public class TicketStockParentActor {
    *  Actor Behaviors
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
-  public static Behavior<Command> create(ActorRef<OrderParentActor.Message> orderParent){
+  public static Behavior<Command> create(ActorRef<OrderParentActor.Command> orderParent){
     Map<Integer, ActorRef<TicketStockActor.Command>> children = new HashMap<>();
     return Behaviors.setup(context -> behavior(context, orderParent, children));
   }
@@ -18,7 +18,7 @@ public class TicketStockParentActor {
   // private: never accessed from outside the actor
   private static Behavior<Command> behavior(
     ActorContext<Command> context,
-    ActorRef<OrderParentActor.Message> orderParent,
+    ActorRef<OrderParentActor.Command> orderParent,
     Map<Integer, ActorRef<TicketStockActor.Command>> children) {
 
     return Behaviors.receive(Command.class)

@@ -10,17 +10,17 @@ public class OrderParentActor {
    *  Actor Behaviors
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
-  public static Behavior<Message> create(){
+  public static Behavior<Command> create(){
     Map<String, ActorRef<OrderActor.Message>> children = new HashMap<>();
     return Behaviors.setup(context -> behavior(context, children));
   }
 
   // private: never accessed from outside the actor
-  private static Behavior<Message> behavior(
-    ActorContext<Message> context,
+  private static Behavior<Command> behavior(
+    ActorContext<Command> context,
     Map<String, ActorRef<OrderActor.Message>> children) {
 
-    return Behaviors.receive(Message.class)
+    return Behaviors.receive(Command.class)
       .onMessage(CreateOrder.class, message -> {
         var orderId = UUID.randomUUID();
         var child = context.spawn(OrderActor.create(message.ticketId, message.userId, message.quantity), orderId.toString());
@@ -34,9 +34,9 @@ public class OrderParentActor {
   /********************************************************************************
    *  Actor Messages
    *******************************************************************************/
-  public interface Message {}
+  public interface Command {}
 
-  public static final class CreateOrder implements Message {
+  public static final class CreateOrder implements Command {
     public final int ticketId;
     public final int userId;
     public final int quantity;
